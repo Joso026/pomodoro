@@ -30,11 +30,11 @@ Durante o desenvolvimento deste projeto, aprendi e apliquei:
 
 1⃣ **Clone este repositório:**  
 ```sh
-git clone https://github.com/seuusuario/vue-pomodoro.git
+git clone https://github.com/Joso026/pomodoro.git
 ```
 2⃣ **Acesse a pasta do projeto:**  
 ```sh
-cd vue-pomodoro
+cd pomodoro
 ```
 3⃣ **Instale as dependências:**  
 ```sh
