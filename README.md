@@ -42,7 +42,7 @@ npm install
 ```
 4⃣ **Execute o projeto:**  
 ```sh
-npm run dev
+npm run serve
 ```
 O projeto estará disponível em **http://localhost:8080/** (ou a porta que o Vite indicar).  
 
