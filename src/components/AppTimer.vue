@@ -1,6 +1,7 @@
 <template>
     <div class="timer">
       <h2>{{ formatTime }}</h2>
+      <p> {{ cycleMessage }}</p>
       <button @click="startTimer" :disabled="isRunning">Iniciar</button>
       <button @click="pauseTimer" :disabled="!isRunning">Pausar</button>
       <button @click="resetTimer">Resetar</button>
@@ -14,6 +15,9 @@
         time: 25 * 60, // 25 minutos em segundos
         isRunning: false,
         interval: null,
+        cycle: "work",
+        workTime: 25 * 60,
+        breakTime: 5 * 60,
       };
     },
     computed: {
@@ -22,6 +26,9 @@
         const seconds = this.time % 60;
         return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
       },
+      cycleMessage() {
+      return this.cycle === "work" ? "Hora do foco!" : "Hora do descanso!";
+    }
     },
     methods: {
       startTimer() {
@@ -31,8 +38,7 @@
             if (this.time > 0) {
               this.time--;
             } else {
-              clearInterval(this.interval);
-              this.isRunning = false;
+              this.switchCycle()
             }
           }, 1000);
         }
@@ -44,8 +50,23 @@
       resetTimer() {
         this.isRunning = false;
         clearInterval(this.interval);
+        this.cycle = "work"
         this.time = 25 * 60;
       },
+      switchCycle() {
+        clearInterval(this.interval);
+        this.isRunning = false;
+
+        if (this.cycle === "work") {
+          this.cycle = "break";
+          this.time = this.breakTime;
+        } else {
+          this.cycle = "work";
+          this.time = this.workTime;
+        }
+
+        this.startTimer()
+      }
     },
   };
   </script>
@@ -54,17 +75,46 @@
   .timer {
     text-align: center;
     margin-top: 20px;
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    padding: 30px;
+    border-radius: 15px;
+    color: white;
+    width: 300px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  h2 {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 10px 0
+  }
+
+  p {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 20px;
   }
   
   button {
+    background-color: white;
+    color: #ff416c;
+    border: none;
+    padding: 12px 20px;
     margin: 5px;
-    padding: 10px;
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
+    border-radius: 15px;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background-color: rgba(255, 255, 255, 0.8)
   }
   
   button:disabled {
-    background-color: #ccc;
+    background-color: rgba(255, 255, 255, 0.5);
     cursor: not-allowed;
   }
   </style>
